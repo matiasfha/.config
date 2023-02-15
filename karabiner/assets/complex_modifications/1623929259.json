@@ -1,0 +1,49 @@
+{
+  "title": "personal @matiasfha",
+  "rules": [
+   {
+      "description": "greater and less than",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "comma",
+            "modifiers": {
+              "mandatory": [
+                "left_option"
+              ],
+              "optional": [
+                "right_option"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "non_us_backslash"
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "period",
+            "modifiers": {
+              "mandatory": [
+                "left_option"
+              ],
+              "optional": [
+                "right_option"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "non_us_backslash",
+              "modifiers":["left_shift"]
+            }
+          ]
+        } 
+     ]
+    }   
+  ]
+}
