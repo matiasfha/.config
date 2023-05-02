@@ -67,3 +67,5 @@ vim.opt.ruler = false
 -- spell checks
 -- vim.o.spelllang="en,es"
 vim.o.spellsuggest="best,9"
+
+
