@@ -26,7 +26,7 @@ vim.keymap.set("n", "<C-c>", ":b#|bd#<cr>")
 vim.keymap.set("n", "<leader>sv", ":vsp<cr>", { desc = "[S]plit [V]ertical"})
 
 -- Select all
-vim.keymap.set("n", "<C-a>", "ggVG")
+--vim.keymap.set("n", "<C-a>", "ggVG")
 
 -- keep curso in the middle
 vim.keymap.set("n", "n", "nzzzv")
@@ -66,7 +66,7 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 -- vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<cr>", { desc = "Open [E]xplorer"})
-vim.keymap.set("n", "<leader>e", ":Telescope file_browser<cr>", { noremap = true, desc = "Open [E]explorer" })
+-- vim.keymap.set("n", "<leader>e", ":Telescope file_browser<cr>", { noremap = true, desc = "Open [E]explorer" })
 
 -- Open configuration file
 vim.keymap.set("n", "<leader>oc", ":e ~/.config/nvim/init.lua<cr>", { desc = "[O]pen [C]onfiguration"})
@@ -78,3 +78,4 @@ vim.keymap.set("n","<leader>sc",":set spell!<cr>", { desc = "[S]pell [C]heck"})
 
 -- Create a new file in the same folder as current buffer 
 vim.keymap.set("n","<leader>nf",":e %:h/", { desc = "[N]ew [F]ile"})
+

@@ -1,5 +1,5 @@
 return {
-    { -- Highlight, edit, and navigate code
+	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
 			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
@@ -8,7 +8,7 @@ return {
 
 	{ -- Additional text objects via treesitter
 		"nvim-treesitter/nvim-treesitter-textobjects",
-		dependencies = {"nvim-treesitter"},
+		dependencies = { "nvim-treesitter" },
 	},
 
 	{
@@ -23,5 +23,8 @@ return {
 	},
 	{
 		"RRethy/vim-illuminate",
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
 	},
 }

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/index.ts"],
+  "sourcesContent": ["import { LaunchProps, Clipboard, getSelectedText, showToast, Toast, showHUD } from \"@raycast/api\";\n\nconst makeSilent = (str: string) => str.replace(/[.#@]/g, (match) => match + \"\\u2060\");\n\nexport default async function main(props: LaunchProps) {\n  if (props.arguments.text) {\n    await Clipboard.copy(makeSilent(props.arguments.text));\n    await showHUD(\"Copied to clipboard!\");\n  } else {\n    try {\n      const selectedText = await getSelectedText();\n      await Clipboard.paste(makeSilent(selectedText));\n    } catch (error) {\n      await showToast({\n        style: Toast.Style.Failure,\n        title: \"No text found.\",\n        message: \"Select text in any app, or provide it as argument, then try again.\",\n      });\n    }\n  }\n}\n"],
+  "mappings": "yaAAA,IAAAA,EAAA,GAAAC,EAAAD,EAAA,aAAAE,IAAA,eAAAC,EAAAH,GAAA,IAAAI,EAAmF,wBAE7EC,EAAcC,GAAgBA,EAAI,QAAQ,SAAWC,GAAUA,EAAQ,QAAQ,EAErF,eAAOL,EAA4BM,EAAoB,CACrD,GAAIA,EAAM,UAAU,KAClB,MAAM,YAAU,KAAKH,EAAWG,EAAM,UAAU,IAAI,CAAC,EACrD,QAAM,WAAQ,sBAAsB,MAEpC,IAAI,CACF,IAAMC,EAAe,QAAM,mBAAgB,EAC3C,MAAM,YAAU,MAAMJ,EAAWI,CAAY,CAAC,CAChD,MAAE,CACA,QAAM,aAAU,CACd,MAAO,QAAM,MAAM,QACnB,MAAO,iBACP,QAAS,oEACX,CAAC,CACH,CAEJ",
+  "names": ["src_exports", "__export", "main", "__toCommonJS", "import_api", "makeSilent", "str", "match", "props", "selectedText"]
+}

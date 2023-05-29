@@ -47,16 +47,16 @@ vim.opt.shortmess:append("c") -- don't show redundant messages from ins-completi
 vim.opt.shortmess:append("I") -- don't show the default intro message
 vim.opt.whichwrap:append("<,>,[,],h,l")
 
-vim.filetype.add({
-  extension = {
-    tex = "tex",
-    zir = "zir",
-  },
-  pattern = {
-    ["[jt]sconfig.*.json"] = "jsonc",
-  },
-})
-
+-- vim.filetype.add({
+--   extension = {
+--     tex = "tex",
+--     zir = "zir",
+--   },
+--   pattern = {
+--     ["[jt]sconfig.*.json"] = "jsonc",
+--   },
+-- })
+--
 
 vim.opt.conceallevel = 0
 vim.opt.fileencoding = "utf-8"
@@ -68,4 +68,8 @@ vim.opt.ruler = false
 -- vim.o.spelllang="en,es"
 vim.o.spellsuggest="best,9"
 
+
+--- Colors
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 

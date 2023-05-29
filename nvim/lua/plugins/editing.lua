@@ -1,6 +1,11 @@
 return {
 	-- colorscheme
-	{"folke/tokyonight.nvim"},
+	-- { "folke/tokyonight.nvim" },
+	{
+		"catppuccin/nvim",
+		name = "catppuccin"
+	},
+
 	{ "lukas-reineke/indent-blankline.nvim" }, -- Add indentation guides even on blank lines
 	{ "numToStr/Comment.nvim" }, -- "gc" to comment visual regions/lines
 	{ "tpope/vim-sleuth" }, -- Detect tabstop and shiftwidth automatically
@@ -12,4 +17,20 @@ return {
 		end,
 	},
 	{ "norcalli/nvim-colorizer.lua" },
+	{
+		"echasnovski/mini.bufremove",
+		version = "*",
+		config = function()
+			require("mini.bufremove").setup()
+		end,
+	},
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+	},
 }
