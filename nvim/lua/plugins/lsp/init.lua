@@ -1,6 +1,5 @@
-
 return {
-    { -- LSP Configuration & Plugins
+	{ -- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
@@ -36,4 +35,26 @@ return {
 	{ "rafamadriz/friendly-snippets" },
 	{ "folke/lsp-colors.nvim" },
 	{ "jubnzv/virtual-types.nvim" },
+	{
+		"dnlhc/glance.nvim",
+		config = function()
+			require("glance").setup({
+				theme = {
+					enable = true,
+					mode = "auto",
+				},
+				border = {
+					enable = false,
+					top_char = "─",
+					bottom_char = "─",
+				},
+			})
+		end,
+		keys = {
+			{ "gD", "<CMD>Glance definitions<CR>", desc = "Glance definitions" },
+			{ "gR", "<CMD>Glance references<CR>", desc = "Glance references" },
+			{ "gY", "<CMD>Glance type_definitions<CR>", desc = "Glance type_definitions" },
+			{ "gM", "<CMD>Glance implementations<CR>", desc = "Glance implementations" },
+		},
+	},
 }

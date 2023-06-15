@@ -1,6 +1,6 @@
 return {
 	-- colorscheme
-	-- { "folke/tokyonight.nvim" },
+	{ "folke/tokyonight.nvim" },
 	{
 		"catppuccin/nvim",
 		name = "catppuccin"

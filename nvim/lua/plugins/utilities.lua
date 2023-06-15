@@ -22,9 +22,10 @@ return {
 	{
 		"LunarVim/bigfile.nvim",
 	},
-	{ "sunjon/shade.nvim" },
+	-- { "sunjon/shade.nvim" },
 	{
-		"christoomey/vim-tmux-navigator",
+		-- "christoomey/vim-tmux-navigator",
+		'knubie/vim-kitty-navigator'
 	},
 	-- smooth scrolling
 	{

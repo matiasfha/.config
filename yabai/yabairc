@@ -8,14 +8,6 @@ yabai -m config layout bsp
 # New window spawns to the right if vertical split, or bottom if horizontal split
 yabai -m config window_placement second_child
 
-yabai -m config window_border                on
-yabai -m config window_border_width          6
-yabai -m config active_window_border_color   0xff775759
-yabai -m config normal_window_border_color   0xff505050
-yabai -m config insert_window_border_color   0xffd75f5f
-yabai -m config window_opacity        on
-yabai -m config active_window_opacity        1.0
-yabai -m config normal_window_opacity        0.40
 
 # padding set to 12px
 yabai -m config top_padding 2
@@ -45,6 +37,8 @@ yabai -m config insert_feedback_color        0xffd75f5f     \
     window_border                off           \
     window_topmost              on \
     window_shadow float \
+    window_opacity        off \
+    normal_window_opacity 0.90
 
 
 # when window is dropped in center of another window, swap them (on edges it will split it)
@@ -55,20 +49,15 @@ yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^Remote$" manage=off
 yabai -m rule --add app="^Finder$" manage=off
-yabai -m rule --add app="^Descript$" manage=off
-yabai -m rule --add app="^Davinci Resolve$" space=4
+yabai -m rule --add app="^Screen Studio$" manage=off
+yabai -m rule --add app="^Descript$" grid=4:4:1:1:2:2
+yabai -m rule --add app="^Davinci Resolve$" space=4 native-fullscreen=true
 yabai -m rule --add app="^Discord$" space=3
 yabai -m rule --add app="^Slack$" space=3
+yabai -m rule --add app="^Spotify$" space=4 grid=6:6:1:1:2:2 manage=off
+yabai -m rule --add app="^Docker$" grid=6:6:1:1:2:2 manage=off
 
-# bar settings
-yabai -m config status_bar                   on
-yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
-yabai -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
-yabai -m config status_bar_background_color  0xff202020
-yabai -m config status_bar_foreground_color  0xffa8a8a8
-yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
-yabai -m config status_bar_power_icon_strip   
-yabai -m config status_bar_space_icon        
-yabai -m config status_bar_clock_icon        
+
+
 
 echo "yabai configuration loaded.."

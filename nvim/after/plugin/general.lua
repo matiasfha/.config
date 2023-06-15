@@ -20,24 +20,24 @@ require("gitsigns").setup({
 	},
 })
 
--- require("catppucin").setup({
--- 	integrations = {
--- 		fidget = true,
--- 		gitsigns = true,
--- 		lsp_saga = true,
--- 		markdown = true,
--- 		mini = true,
--- 		mason = true,
--- 		neotree = true,
--- 		telescope = true,
--- 		treesitter = true,
--- 		treesitter_context = true,
--- 		which_key = true,
--- 	},
--- 	transparent_background = true,
--- 	dim_inactive = {
--- 		enabled = true,
--- 		shade = "dark",
--- 		percentage = 0.15,
--- 	},
--- })
+require("catppuccin").setup({
+	integrations = {
+		fidget = true,
+		gitsigns = true,
+		lsp_saga = true,
+		markdown = true,
+		mini = true,
+		mason = true,
+		neotree = true,
+		telescope = true,
+		treesitter = true,
+		treesitter_context = true,
+		which_key = true,
+	},
+	transparent_background = true,
+	dim_inactive = {
+		enabled = false,
+		shade = "dark",
+		percentage = 0.05,
+	},
+})

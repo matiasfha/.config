@@ -1,5 +1,4 @@
 -- LSP settings.
-require("lspconfig").svelte.setup({})
 local saga = require("lspsaga")
 local keymap = vim.keymap.set
 saga.setup({
@@ -52,7 +51,7 @@ nmap("<leader>wl", function()
 end, "[W]orkspace [L]ist Folders")
 
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
 	-- NOTE: Remember that lua is a real programming language, and as such it is possible
 	-- to define small helper and utility functions so you don't have to repeat yourself
 	-- many times.
@@ -63,6 +62,13 @@ local on_attach = function(_, bufnr)
 	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
 		vim.lsp.buf.format()
 	end, { desc = "Format current buffer with LSP" })
+	if require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(vim.fn.getcwd()) then
+		if client.name == "tsserver" then
+			print("Setting up Deno LSP")
+			client.stop()
+			return
+		end
+	end
 end
 
 -- Enable the following language servers
@@ -207,3 +213,22 @@ null_ls.setup({
 		end
 	end,
 })
+
+local nvim_lsp = require("lspconfig")
+nvim_lsp.svelte.setup({})
+nvim_lsp.denols.setup({
+	root_dir = nvim_lsp.util.root_pattern("deno.json"),
+})
+
+nvim_lsp.tsserver.setup({
+	root_dir = nvim_lsp.util.root_pattern("package.json"),
+	-- single_file_support = false
+})
+
+nvim_lsp.util.on_setup = nvim_lsp.util.add_hook_before(nvim_lsp.util.on_setup, function(config)
+	local cwd = vim.loop.cwd()
+	print(cwd)
+	if config.name == "tsserver" and vim.fn.filereadable(cwd .. "/deno.json") == 1 then
+		config.single_file_support = false
+	end
+end)

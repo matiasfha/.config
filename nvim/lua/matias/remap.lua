@@ -15,6 +15,7 @@ vim.keymap.set("i", "jk", "<ESC>")
 
 -- save
 vim.keymap.set("n", "<C-s>", ":w<cr>")
+vim.keymap.set("n","<leader>Q",":wqall<cr>")
 
 -- reload
 vim.keymap.set("n", "<leader>lr", ":so<cr>")
@@ -76,6 +77,15 @@ vim.keymap.set("n", "<leader>oc", ":e ~/.config/nvim/init.lua<cr>", { desc = "[O
 vim.keymap.set("n","<leader>sc",":set spell!<cr>", { desc = "[S]pell [C]heck"})
 
 
--- Create a new file in the same folder as current buffer 
+-- Create a new file in the same folder as current buffer
 vim.keymap.set("n","<leader>nf",":e %:h/", { desc = "[N]ew [F]ile"})
 
+-- Search for other occurrences of the current visual selection
+vim.keymap.set('n','//', 'y/<C-R>"<CR>', { desc = "Search for other ocurrences of current visual selection"})
+
+-- Stay in visual mode when changing the indent for the selection
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+-- Map enter to ciw in normal mode
+vim.keymap.set("n", "<CR>", "ciw")
