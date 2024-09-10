@@ -1,0 +1,20 @@
+(library
+ (name dune_pkg)
+ (synopsis "[Internal] Dune's packaging support")
+ (libraries
+  stdune
+  fiber
+  chrome_trace
+  dune_engine
+  dune_util
+  dune_stats
+  dune_lang
+  dune_console
+  opam_core
+  opam_repository
+  opam_format
+  opam_state
+  opam_0install
+  fmt)
+ (instrumentation
+  (backend bisect_ppx)))

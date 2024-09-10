@@ -1,0 +1,23 @@
+opam-version: "2.0"
+added: [
+  "bin/ydump" {"F:S1908198T1695069834."}
+  "doc/yojson" {"D"}
+  "doc/yojson/CHANGES.md" {"F:S4913T1695069834."}
+  "doc/yojson/LICENSE.md" {"F:S1504T1695069834."}
+  "doc/yojson/README.md" {"F:S2972T1695069834."}
+  "doc/yojson/odoc-pages/index.mld" {"F:S656T1695069834."}
+  "lib/yojson" {"D"}
+  "lib/yojson/META" {"F:S196T1695069834."}
+  "lib/yojson/dune-package" {"F:S809T1695069834."}
+  "lib/yojson/opam" {"F:S1043T1695069834."}
+  "lib/yojson/yojson.a" {"F:S856928T1695069834."}
+  "lib/yojson/yojson.cma" {"F:S782834T1695069834."}
+  "lib/yojson/yojson.cmi" {"F:S22455T1695069834."}
+  "lib/yojson/yojson.cmt" {"F:S1065059T1695069834."}
+  "lib/yojson/yojson.cmti" {"F:S137433T1695069834."}
+  "lib/yojson/yojson.cmx" {"F:S133803T1695069834."}
+  "lib/yojson/yojson.cmxa" {"F:S1110T1695069834."}
+  "lib/yojson/yojson.cmxs" {"F:S669960T1695069834."}
+  "lib/yojson/yojson.ml" {"F:S548233T1695069834."}
+  "lib/yojson/yojson.mli" {"F:S82401T1695069834."}
+]

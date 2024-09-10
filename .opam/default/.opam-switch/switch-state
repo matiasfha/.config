@@ -1,0 +1,18 @@
+opam-version: "2.0"
+compiler: ["ocaml.5.1.0"]
+roots: ["ocaml.5.1.0" "ocaml-base-compiler.5.1.0" "yojson.2.1.0"]
+installed: [
+  "base-bigarray.base"
+  "base-domains.base"
+  "base-nnp.base"
+  "base-threads.base"
+  "base-unix.base"
+  "cppo.1.6.9"
+  "dune.3.10.0"
+  "ocaml.5.1.0"
+  "ocaml-base-compiler.5.1.0"
+  "ocaml-config.3"
+  "ocaml-options-vanilla.1"
+  "seq.base"
+  "yojson.2.1.0"
+]

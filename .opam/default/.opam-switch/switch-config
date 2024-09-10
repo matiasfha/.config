@@ -1,0 +1,13 @@
+opam-version: "2.0"
+synopsis: "default"
+opam-root: "/Users/matias/.opam"
+invariant: [
+  "ocaml" {>= "4.05.0"}
+]
+paths {
+  
+}
+variables {
+  user: "matias"
+  group: "staff"
+}
