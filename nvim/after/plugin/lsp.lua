@@ -1,4 +1,96 @@
 -- LSP settings.
+
+local lsp = require("lsp-zero").preset({})
+lsp.preset('recommended')
+lsp.ensure_installed({
+	'tsserver',
+	'eslint',
+})
+
+local function filter(arr, fn)
+  if type(arr) ~= "table" then
+    return arr
+  end
+
+  local filtered = {}
+  for k, v in pairs(arr) do
+    if fn(v, k, arr) then
+      table.insert(filtered, v)
+    end
+  end
+
+  return filtered
+end
+
+local function filterReactDTS(value)
+  return string.match(value.filename, 'react/index.d.ts') == nil
+end
+
+
+local function on_list(options)
+  local items = options.items
+  if #items > 1 then
+    items = filter(items, filterReactDTS)
+  end
+
+  vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
+  vim.api.nvim_command('cfirst') -- or maybe you want 'copen' instead of 'cfirst'
+end
+
+
+lsp.on_attach(function(client, bufnr)
+     local opts = {buffer = bufnr, remap = false}
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+	lsp.default_keymaps({ buffer = bufnr })
+	vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
+end)
+
+-- (Optional) Configure lua language server for neovim
+require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
+
+lsp.setup()
+
+local cmp = require("cmp")
+local cmp_action = require("lsp-zero").cmp_action()
+cmp.setup({
+	sources = {
+		{ name = "nvim_lsp", group_index = 1 },
+		-- Copilot Source
+		{ name = "copilot", group_index = 2 },
+		-- Other Sources
+		{ name = "buffer", group_index = 3 },
+		-- { name = "path", group_index = 3 },
+		-- { name = "luasnip", group_index = 3 },
+	},
+	mapping = cmp.mapping.preset.insert({
+		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<CR>"] = cmp.mapping.confirm({
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
+		}),
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+	}),
+})
+
 local saga = require("lspsaga")
 local keymap = vim.keymap.set
 saga.setup({
@@ -7,9 +99,9 @@ saga.setup({
 	},
 })
 -- Float terminal
-keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true })
+-- keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", { silent = true })
 -- close floaterm
-keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
+-- keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
 local nmap = function(keys, func, desc)
 	if desc then
 		desc = "LSP: " .. desc
@@ -50,185 +142,107 @@ nmap("<leader>wl", function()
 	print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, "[W]orkspace [L]ist Folders")
 
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(client, bufnr)
-	-- NOTE: Remember that lua is a real programming language, and as such it is possible
-	-- to define small helper and utility functions so you don't have to repeat yourself
-	-- many times.
-	--
-	-- In this case, we create a function that lets us more easily define mappings specific
-	-- for LSP related items. It sets the mode, buffer and description for us each time.
-	-- Create a command `:Format` local to the LSP buffer
-	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-		vim.lsp.buf.format()
-	end, { desc = "Format current buffer with LSP" })
-	if require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(vim.fn.getcwd()) then
-		if client.name == "tsserver" then
-			print("Setting up Deno LSP")
-			client.stop()
-			return
-		end
-	end
-end
-
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+-- --
+-- -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 --
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
-local servers = {
-	-- clangd = {},
-	-- gopls = {},
-	-- pyright = {},
-	-- rust_analyzer = {},
-	tsserver = {},
-}
-
--- Setup neovim lua configuration
-require("neodev").setup()
+-- local cmp = require("cmp")
+-- local luasnip = require("luasnip")
 --
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
--- Setup mason so it can manage external tooling
-require("mason").setup()
-
--- Ensure the servers above are installed
-local mason_lspconfig = require("mason-lspconfig")
-
-mason_lspconfig.setup({
-	ensure_installed = vim.tbl_keys(servers),
-	automatic_installation = {
-		exclude = { "emmet_ls", "rust_analyzer" },
-	},
-})
-
-mason_lspconfig.setup_handlers({
-	function(server_name)
-		require("lspconfig")[server_name].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = servers[server_name],
-		})
-	end,
-})
-
--- nvim-cmp setup
-local cmp = require("cmp")
-local luasnip = require("luasnip")
-
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
-	mapping = cmp.mapping.preset.insert({
-		["<C-d>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<CR>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		}),
-		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-	}),
-	sources = cmp.config.sources({
-		-- Copilot Source
-		{ name = "copilot", group_index = 2 },
-		-- Other Sources
-		{ name = "nvim_lsp", group_index = 2 },
-		{ name = "path", group_index = 2 },
-		{ name = "luasnip", group_index = 2 },
-		{ name = "buffer", group_index = 2 },
-	}),
-})
--- FORMATTERS
-local null_ls = require("null-ls")
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.diagnostics.eslint.with({
-			filetypes = { "typescript", "typescriptreact", "javascriptreact", "javascript", "svelte" },
-			prefer_local = "node_modules/.bin",
-			condition = function(utils)
-				return utils.root_has_file({
-					".eslintrc.js",
-					".esintrc.cjs",
-					".eslintrc.yaml",
-					".eslintrc.yml",
-					".eslintrc.json",
-					"eslint.config.js",
-				})
-			end,
-		}),
-		null_ls.builtins.completion.spell,
-		null_ls.builtins.formatting.prettier.with({
-			filetypes = {
-				"css",
-				"graphql",
-				"html",
-				"json",
-				"yaml",
-				"markdown",
-				"typescript",
-				"typescriptreact",
-				"javascript",
-				"javascriptreact",
-				"svelte",
-			},
-			prefer_local = "node_modules/.bin",
-		}),
-		null_ls.builtins.diagnostics.write_good.with({
-			filetypes = { "markdown" },
-		}),
-	},
-	on_attach = function(client, buffer)
-		if client.supports_method("textDocument/formatting") then
-			vim.api.nvim_clear_autocmds({ group = augroup, buffer = buffer })
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = augroup,
-				buffer = buffer,
-				callback = vim.lsp.buf.format,
-			})
-		end
-	end,
-})
-
-local nvim_lsp = require("lspconfig")
-nvim_lsp.svelte.setup({})
-nvim_lsp.denols.setup({
-	root_dir = nvim_lsp.util.root_pattern("deno.json"),
-})
-
-nvim_lsp.tsserver.setup({
-	root_dir = nvim_lsp.util.root_pattern("package.json"),
-	-- single_file_support = false
-})
-
-nvim_lsp.util.on_setup = nvim_lsp.util.add_hook_before(nvim_lsp.util.on_setup, function(config)
-	local cwd = vim.loop.cwd()
-	print(cwd)
-	if config.name == "tsserver" and vim.fn.filereadable(cwd .. "/deno.json") == 1 then
-		config.single_file_support = false
-	end
-end)
+-- cmp.setup({
+-- 	snippet = {
+-- 		expand = function(args)
+-- 			luasnip.lsp_expand(args.body)
+-- 		end,
+-- 	},
+-- 	mapping = cmp.mapping.preset.insert({
+-- 		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+-- 		["<C-f>"] = cmp.mapping.scroll_docs(4),
+-- 		["<C-Space>"] = cmp.mapping.complete(),
+-- 		["<CR>"] = cmp.mapping.confirm({
+-- 			behavior = cmp.ConfirmBehavior.Replace,
+-- 			select = true,
+-- 		}),
+-- 		["<Tab>"] = cmp.mapping(function(fallback)
+-- 			if cmp.visible() then
+-- 				cmp.select_next_item()
+-- 			elseif luasnip.expand_or_jumpable() then
+-- 				luasnip.expand_or_jump()
+-- 			else
+-- 				fallback()
+-- 			end
+-- 		end, { "i", "s" }),
+-- 		["<S-Tab>"] = cmp.mapping(function(fallback)
+-- 			if cmp.visible() then
+-- 				cmp.select_prev_item()
+-- 			elseif luasnip.jumpable(-1) then
+-- 				luasnip.jump(-1)
+-- 			else
+-- 				fallback()
+-- 			end
+-- 		end, { "i", "s" }),
+-- 	}),
+-- 	sources = cmp.config.sources({
+-- 		{ name = "nvim_lsp", group_index = 1 },
+-- 		-- Copilot Source
+-- 		{ name = "copilot", group_index = 2 },
+-- 		-- Other Sources
+-- 		{ name = "buffer", group_index = 3 },
+-- 		{ name = "path", group_index = 3 },
+-- 		{ name = "luasnip", group_index = 3 },
+-- 	}),
+-- })
+-- -- FORMATTERS
+-- local null_ls = require("null-ls")
+-- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+-- null_ls.setup({
+-- 	sources = {
+-- 		null_ls.builtins.formatting.stylua,
+-- 		null_ls.builtins.diagnostics.eslint.with({
+-- 			filetypes = { "typescript", "typescriptreact", "javascriptreact", "javascript", "svelte" },
+-- 			prefer_local = "node_modules/.bin",
+-- 			condition = function(utils)
+-- 				return utils.root_has_file({
+-- 					".eslintrc.js",
+-- 					".esintrc.cjs",
+-- 					".eslintrc.yaml",
+-- 					".eslintrc.yml",
+-- 					".eslintrc.json",
+-- 					"eslint.config.js",
+-- 				})
+-- 			end,
+-- 		}),
+-- 		null_ls.builtins.completion.spell,
+-- 		null_ls.builtins.formatting.prettier.with({
+-- 			filetypes = {
+-- 				"css",
+-- 				"graphql",
+-- 				"html",
+-- 				"json",
+-- 				"yaml",
+-- 				"markdown",
+-- 				"typescript",
+-- 				"typescriptreact",
+-- 				"javascript",
+-- 				"javascriptreact",
+-- 				"svelte",
+-- 			},
+-- 			prefer_local = "node_modules/.bin",
+-- 		}),
+-- 		null_ls.builtins.diagnostics.write_good.with({
+-- 			filetypes = { "markdown" },
+-- 		}),
+-- 	},
+-- 	on_attach = function(client, buffer)
+-- 		if client.supports_method("textDocument/formatting") then
+-- 			vim.api.nvim_clear_autocmds({ group = augroup, buffer = buffer })
+-- 			vim.api.nvim_create_autocmd("BufWritePre", {
+-- 				group = augroup,
+-- 				buffer = buffer,
+-- 				callback = vim.lsp.buf.format,
+-- 			})
+-- 		end
+-- 	end,
+-- })
+--

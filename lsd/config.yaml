@@ -1,0 +1,9 @@
+classic: false
+
+color:
+     when: auto
+     theme: default
+ignore-globs:
+  - .git
+  - node_modules
+

@@ -1,7 +1,7 @@
 return {
     {
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.0",
+		tag = "0.1.4",
 		dependencies = { { "nvim-lua/plenary.nvim" } },
 	},
 	-- Fuzzy Finder Algorithm which dependencies local dependencies to be built. Only load if `make` is available

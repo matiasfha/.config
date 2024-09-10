@@ -7,7 +7,7 @@ return {
 		config = function()
 			vim.g.mkdp_auto_start = 1
 		end,
-		init = function()
+		setup = function()
 			vim.g.mkdp_filetypes = { "markdown" }
 		end,
 	},

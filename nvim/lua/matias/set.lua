@@ -58,7 +58,7 @@ vim.opt.whichwrap:append("<,>,[,],h,l")
 -- })
 --
 
-vim.opt.conceallevel = 0
+vim.opt.conceallevel = 1
 vim.opt.fileencoding = "utf-8"
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"

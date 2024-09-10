@@ -43,6 +43,18 @@ telescope.setup({
 		},
 
 	},
+	extensions = {
+		repo = {
+		  list = {
+			fd_opts = {
+			  "--no-ignore-vcs",
+			},
+			search_dirs = {
+			  "~/Development","~/.config"
+			},
+		  },
+		},
+	  },
 })
 
 -- Enable telescope fzf native, if installed
@@ -50,14 +62,14 @@ pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "file_browser")
 pcall(require("telescope").load_extension, "neoclip")
 pcall(require("telescope").load_extension, "dir")
-
+pcall(require'telescope'.load_extension'repo')
 
 
 local builtin = require("telescope.builtin")
 
 vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind all [F]iles " })
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind by [G]rep" })
-vim.keymap.set("n", "<leader>ft", builtin.buffers, { desc = "[F]ind [T]abs " })
+vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "[B]uffers" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
 vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "[F]ind [G]it files" })
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
@@ -71,10 +83,18 @@ vim.keymap.set(
 	":Telescope file_browser path=%:p:h select_buffer=true <cr>",
 	{ noremap = true, desc = "[F]ile [B]rowser" }
 )
-vim.keymap.set("n", "<leader>/", function()
-	-- You can pass additional configuration to telescope to change theme, layout, etc.
-	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-		winblend = 10,
-		previewer = false,
-	}))
-end, { desc = "[/] Fuzzily search in current buffer]" })
+-- vim.keymap.set("n", "<leader>/", function()
+-- 	-- You can pass additional configuration to telescope to change theme, layout, etc.
+-- 	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+-- 		winblend = 10,
+-- 		previewer = false,
+-- 	}))
+-- end, { desc = "[/] Fuzzily search in current buffer]" })
+vim.keymap.set("n", "<leader>/", builtin.grep_string, { desc = "Search string"})
+
+-- Frecency
+vim.keymap.set("n", "<leader><leader>", "<Cmd>Telescope frecency<CR>", { desc = "Frecency files"})
+
+-- Repo List
+vim.keymap.set("n","<leader>rl", "<Cmd>Telescope repo list<CR>", { desc = "Repo list"})
+

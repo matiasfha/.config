@@ -1,15 +1,14 @@
 return {
 	-- colorscheme
-	{ "folke/tokyonight.nvim" },
+--	{ "folke/tokyonight.nvim" },
 	{
 		"catppuccin/nvim",
 		name = "catppuccin"
 	},
 
-	{ "lukas-reineke/indent-blankline.nvim" }, -- Add indentation guides even on blank lines
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }, -- Add indentation guides even on blank lines
 	{ "numToStr/Comment.nvim" }, -- "gc" to comment visual regions/lines
 	{ "tpope/vim-sleuth" }, -- Detect tabstop and shiftwidth automatically
-	{ "knubie/vim-kitty-navigator" },
 	{
 		"windwp/nvim-autopairs",
 		config = function()

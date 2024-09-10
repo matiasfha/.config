@@ -54,7 +54,7 @@ yabai -m rule --add app="^Descript$" grid=4:4:1:1:2:2
 yabai -m rule --add app="^Davinci Resolve$" space=4 native-fullscreen=true
 yabai -m rule --add app="^Discord$" space=3
 yabai -m rule --add app="^Slack$" space=3
-yabai -m rule --add app="^Spotify$" space=4 grid=6:6:1:1:2:2 manage=off
+yabai -m rule --add app="^Spotify$" space=4 grid=6:6:1:1:2:2
 yabai -m rule --add app="^Docker$" grid=6:6:1:1:2:2 manage=off
 
 

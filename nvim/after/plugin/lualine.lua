@@ -2,7 +2,7 @@
 -- See `:help lualine.txt`
 require("lualine").setup({
 	options = {
-		icons_enabled = false,
+		icons_enabled = true,
 		theme = "catppuccin",
 		component_separators = "|",
 		section_separators = "",
@@ -13,6 +13,6 @@ require("lualine").setup({
 		lualine_c = {},
 		lualine_x = { "filename", "filetype" },
 		lualine_y = {},
-		lualine_z = {},
+		lualine_z = {"buffers"},
 	},
 })

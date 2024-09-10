@@ -89,3 +89,23 @@ vim.keymap.set("v", ">", ">gv")
 
 -- Map enter to ciw in normal mode
 vim.keymap.set("n", "<CR>", "ciw")
+
+-- vim.keymap.set("n","<C-h>",":KittyNavigateLeft<cr>")
+-- vim.keymap.set("n","<C-j>",":KittyNavigateDown<cr>")
+-- vim.keymap.set("n","<C-k>",":KittyNavigateUp<cr>")
+-- vim.keymap.set("n","<C-l>",":KittyNavigateRight<cr>")
+--
+-- Kitty
+-- vim-kitty-navigator
+-- if os.getenv("TERM") == "xterm-kitty" then
+--     vim.g.kitty_navigator_no_mappings = 1
+--     vim.g.tmux_navigator_no_mappings = 1
+--
+--     vim.api.nvim_set_keymap('n', 'C-h', ':KittyNavigateLeft <CR>', { noremap = true, silent = true })
+--     vim.api.nvim_set_keymap('n', 'C-j', ':KittyNavigateDown <CR>', { noremap = true, silent = true })
+--     vim.api.nvim_set_keymap('n', 'C-k', ':KittyNavigateUp <CR>', { noremap = true, silent = true })
+--     vim.api.nvim_set_keymap('n', 'C-l', ':KittyNavigateRight <CR>', { noremap = true, silent = true })
+-- end
+
+-- twilight
+vim.api.nvim_set_keymap("n", "tw", ":Twilight<enter>", {noremap=false})

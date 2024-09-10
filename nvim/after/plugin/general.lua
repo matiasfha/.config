@@ -3,10 +3,7 @@ require("Comment").setup()
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
-require("indent_blankline").setup({
-	char = "┊",
-	show_trailing_blankline_indent = false,
-})
+require("ibl").setup()
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
@@ -18,6 +15,17 @@ require("gitsigns").setup({
 		topdelete = { text = "‾" },
 		changedelete = { text = "~" },
 	},
+	on_attach = function(bufnr)
+		local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+		map('n', '<leader>tb', gs.toggle_current_line_blame)
+		map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+	end
 })
 
 require("catppuccin").setup({
@@ -41,3 +49,4 @@ require("catppuccin").setup({
 		percentage = 0.05,
 	},
 })
+

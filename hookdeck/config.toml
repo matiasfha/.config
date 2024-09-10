@@ -1,0 +1,6 @@
+profile = "default"
+
+[default]
+  api_key = "1n6zah68nckvyqxs26n957j2yvh0a3blv39fi2yosupn2hukm7"
+  workspace_id = "tm_FuOxuczRv00m"
+  workspace_mode = "console"

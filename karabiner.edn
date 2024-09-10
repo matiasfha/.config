@@ -24,15 +24,30 @@
                  [:end :vk_none]
                  [:!Oz :non_us_backslash]
                  [:!OSz  :!Snon_us_backslash]
-                 [:##caps_lock :left_control :nil {:alone :escape}]
-                 [:caps_lock ["caps-mode" 1] nil {:afterup ["caps-mode" 0] :alone :escape}]
-                 [:##right_command :right_option]
+                 ; [:##caps_lock :left_control :nil {:alone :escape}]
+                 ; [:caps_lock ["caps-mode" 1] nil {:afterup ["caps-mode" 0] :alone :escape}]
+                 ; [:##right_command :right_option]
                  [:grave_accent_and_tilde :non_us_backslash]
                  [{:key :grave_accent_and_tilde :modi :left_shift} {:key :non_us_backslash :modi :left_shift}]
                  [:##left_shift :left_shift nil {:alone :delete_forward}]
                  [:##right_shift :right_shift nil {:alone :delete_or_backspace}]
-                 [{:key :semicolon :modi :right_option} {:key :quote :modi :right_option}]
-                 [{:key :quote :modi :right_option} {:key :backslash :modi :right_option}]]}
+                 [{:key :!!semicolon} {:key :quote :modi :right_option}]
+                 [{:key :!!quote } {:key :backslash :modi :right_option}]
+                 [{:key :!!open_bracket } {:key :open_bracket :modi :right_option}]
+                 [{:key :!!close_bracket } {:key :close_bracket :modi :right_option}]
+
+
+; [{:key :right_command} {:key :left_command :modi [:left_shift :left_control :left_option]}]
+[:##right_command :!CTOleft_shift]
+
+[{:key :caps_lock} {:key :escape}]
+[{:key :h :modi :left_option} {:key :left_arrow }]
+[{:key :j :modi :left_option} {:key :down_arrow }]
+[{:key :k :modi :left_option} {:key :up_arrow }]
+[{:key :l :modi :left_option} {:key :right_arrow }]
+
+
+     ]}
 
         {:des "VScode Rules"
          :rules [[:left_command :left_command :code {:alone :!SCp}] ; open command palette only on vscode
