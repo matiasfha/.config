@@ -3,7 +3,21 @@ return {
 --	{ "folke/tokyonight.nvim" },
 	{
 		"catppuccin/nvim",
-		name = "catppuccin"
+		name = "catppuccin",
+		priority = 1000,
+		lazy = false,
+		config = function()
+			require("catppuccin").setup({
+				flavour = "auto",
+				transparent_background = true,
+				term_colors = true,
+				dim_inactive = {
+					enabled = true
+				},
+			})
+			vim.cmd("colorscheme catppuccin")
+
+		end
 	},
 
     { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }, -- Add indentation guides even on blank lines

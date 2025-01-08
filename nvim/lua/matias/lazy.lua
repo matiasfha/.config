@@ -12,8 +12,24 @@ end
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins")
+require("lazy")
+.setup({
+  spec = {
+    { import = "plugins" },
+  },
+  -- install = { colorscheme = { "catppuccin" } },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
 
 --- Colors
--- vim.cmd[[colorscheme tokyonight-night]]
 vim.cmd.colorscheme "catppuccin-mocha"

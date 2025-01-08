@@ -22,9 +22,13 @@
                  [:page_down :vk_none]
                  [:home :vk_none]
                  [:end :vk_none]
-                 [:!Oz :non_us_backslash]
-                 [:!OSz  :!Snon_us_backslash]
-                 ; [:##caps_lock :left_control :nil {:alone :escape}]
+                 [:!Oz :grave_accent_and_tilde]
+                 [:!OSz  :!Sgrave_accent_and_tilde]
+                 [:!Qopen_bracket :!Oopen_bracket]
+                 [:!Qclose_bracket :!Oclose_bracket]
+                 [:!Qsemicolon :!Oquote]
+                 [:!Qquote :!Obackslash]
+                 [:##caps_lock :left_control :nil {:alone :escape}]
                  ; [:caps_lock ["caps-mode" 1] nil {:afterup ["caps-mode" 0] :alone :escape}]
                  ; [:##right_command :right_option]
                  [:grave_accent_and_tilde :non_us_backslash]
@@ -38,13 +42,13 @@
 
 
 ; [{:key :right_command} {:key :left_command :modi [:left_shift :left_control :left_option]}]
-[:##right_command :!CTOleft_shift]
+; [:##right_command :!CTOleft_shift]
 
 [{:key :caps_lock} {:key :escape}]
-[{:key :h :modi :left_option} {:key :left_arrow }]
-[{:key :j :modi :left_option} {:key :down_arrow }]
-[{:key :k :modi :left_option} {:key :up_arrow }]
-[{:key :l :modi :left_option} {:key :right_arrow }]
+; [{:key :h :modi :left_option} {:key :left_arrow }]
+; [{:key :j :modi :left_option} {:key :down_arrow }]
+; [{:key :k :modi :left_option} {:key :up_arrow }]
+; [{:key :l :modi :left_option} {:key :right_arrow }]
 
 
      ]}

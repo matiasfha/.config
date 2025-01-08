@@ -4,7 +4,7 @@ if not present then
 end
 
 local actions = require('telescope.actions')
-local trouble = require('trouble.providers.telescope')
+local open_with_trouble = require('trouble.sources.telescope').open
 
 telescope.setup({
 	defaults = {
@@ -35,10 +35,10 @@ telescope.setup({
 			i = {
 				["<C-u>"] = false,
 				["<C-d>"] = false,
-				["<C-t>"] = trouble.open_with_trouble,
+				["<C-t>"] = open_with_trouble,
 			},
 			n = {
-				["<C-t>"] = trouble.open_with_trouble,
+				["<C-t>"] = open_with_trouble,
 			}
 		},
 
@@ -62,14 +62,13 @@ pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "file_browser")
 pcall(require("telescope").load_extension, "neoclip")
 pcall(require("telescope").load_extension, "dir")
-pcall(require'telescope'.load_extension'repo')
 
 
 local builtin = require("telescope.builtin")
 
 vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind all [F]iles " })
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind by [G]rep" })
-vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "[B]uffers" })
+vim.keymap.set("n", "<leader>b", ":Telescope buffers sort_mru=true sort_lastused=true initial_mode=normal <cr>", { desc = "[B]uffers" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
 vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "[F]ind [G]it files" })
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
@@ -92,9 +91,7 @@ vim.keymap.set(
 -- end, { desc = "[/] Fuzzily search in current buffer]" })
 vim.keymap.set("n", "<leader>/", builtin.grep_string, { desc = "Search string"})
 
--- Frecency
-vim.keymap.set("n", "<leader><leader>", "<Cmd>Telescope frecency<CR>", { desc = "Frecency files"})
+-- colorscheme
+vim.keymap.set("n","<leader>c", builtin.colorscheme, { desc = "Find [C]olorscheme"})
 
--- Repo List
-vim.keymap.set("n","<leader>rl", "<Cmd>Telescope repo list<CR>", { desc = "Repo list"})
 

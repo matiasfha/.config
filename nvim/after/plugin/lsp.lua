@@ -3,8 +3,10 @@
 local lsp = require("lsp-zero").preset({})
 lsp.preset('recommended')
 lsp.ensure_installed({
-	'tsserver',
+	-- 'tsserver',
+	'denols',
 	'eslint',
+	'marksman'
 })
 
 local function filter(arr, fn)
@@ -51,7 +53,6 @@ require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 lsp.setup()
 
 local cmp = require("cmp")
-local cmp_action = require("lsp-zero").cmp_action()
 cmp.setup({
 	sources = {
 		{ name = "nvim_lsp", group_index = 1 },
@@ -92,7 +93,6 @@ cmp.setup({
 })
 
 local saga = require("lspsaga")
-local keymap = vim.keymap.set
 saga.setup({
 	ui = {
 		kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
